@@ -1,17 +1,14 @@
 const express = require('express');
+const cors = require('cors');
 const data = require('./budgetdetails.json');
 const app = express();
 const port = 3000;
 
+app.use(cors());
 
-app.use('/', express.static('public'));
 
 
-app.get('/hello' , (req,res) => {
-    
-    res.send("Hello world");
 
-});
 app.get('/budget' , (req,res) => {
 
     res.json(data);
