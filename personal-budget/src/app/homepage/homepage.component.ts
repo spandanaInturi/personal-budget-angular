@@ -1,12 +1,16 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chart } from 'chart.js';
+import * as D3 from 'd3';
+import { DataService } from '../data.service';
+
+
 @Component({
   selector: 'pb-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.scss']
 })
-export class HomepageComponent implements AfterViewInit {
+export class HomepageComponent implements OnInit {
 
   public dataSource = {
     datasets : [ {
@@ -25,27 +29,35 @@ export class HomepageComponent implements AfterViewInit {
 
 };
 
-  constructor(private http: HttpClient){ }
+constructor(private http: HttpClient, public dataService: DataService) { }
 
-  ngAfterViewInit(): void {
-    this.http.get(' http://localhost:3000/budget')
-    .subscribe((res: any) => {
-      for( var i = 0; i < res.mybudget.length; i++){
-        this.dataSource.datasets[0].data[i] = res.mybudget[i].budget;
-        this.dataSource.labels[i] = res.mybudget[i].title;
-        this.createCharts();
+  ngOnInit(): void {
+
+    if (this.dataService.dataSource.length > 0){
+      for (let i = 0; i < this.dataService.dataSource.length; i++) {
+        this.dataSource.datasets[0].data[i] = this.dataService.dataSource[i].budget;
+        this.dataSource.labels[i] = this.dataService.dataSource[i].title;
+        this.createChart();
+      }
+    } else {
+    this.dataService.getData().subscribe((data: any) => {
+      for (let i = 0; i < data.length; i++) {
+        this.dataSource.datasets[0].data[i] = data[i].budget;
+        this.dataSource.labels[i] = data[i].title;
+        this.createChart();
       }
     });
   }
-  createCharts(){
+  }
 
-    var ctx = document.getElementById('myChart');
-    var piechart = new Chart(ctx , {
+  createChart(){
+    var ctx : any = document.getElementById('myChart')
+    var myPieChart = new Chart(ctx, {
         type: 'pie',
         data : this.dataSource
     });
-
-
 }
+
+
 }
 

@@ -1,4 +1,5 @@
 <section class ="container center" aria-label =" main content of budget"><!--This is a semantic change and A11y change-->
+ <pb-breadcrumbs></pb-breadcrumbs>
   <div id= "main">
   <div class="page-area">
 
@@ -29,12 +30,19 @@
 
       </pb-article>
 
-      <pb-article aria-label="Free">
+      <article aria-label="Free">
           <h1>Chart</h1>
           <div>
               <canvas id="myChart" width="400" height="400"></canvas>
           </div>
-      </pb-article>
+      </article>
+
+      <article id="d3chart">
+        <h1>Budget Allocation</h1>
+        <figure id="pie">
+            <pb-d3graph></pb-d3graph>
+        </figure>
+    </article>
 
   </div>
 </div>
