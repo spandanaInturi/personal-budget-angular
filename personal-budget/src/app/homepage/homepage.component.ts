@@ -33,13 +33,7 @@ constructor(private http: HttpClient, public dataService: DataService) { }
 
   ngOnInit(): void {
 
-    if (this.dataService.dataSource.length > 0){
-      for (let i = 0; i < this.dataService.dataSource.length; i++) {
-        this.dataSource.datasets[0].data[i] = this.dataService.dataSource[i].budget;
-        this.dataSource.labels[i] = this.dataService.dataSource[i].title;
-        this.createChart();
-      }
-    } else {
+
     this.dataService.getData().subscribe((data: any) => {
       for (let i = 0; i < data.length; i++) {
         this.dataSource.datasets[0].data[i] = data[i].budget;
@@ -47,7 +41,7 @@ constructor(private http: HttpClient, public dataService: DataService) { }
         this.createChart();
       }
     });
-  }
+
   }
 
   createChart(){
